@@ -3,7 +3,9 @@
   <input data-ng-model="newFeeling.title">
   <label>Description</label>
   <textarea type="text" data-ng-model="newFeeling.description"></textarea>
-  <button data-ng-click="feelings.save(newFeeling); newFeeling='';">Add</button>
+  <label>Public</label>
+  <input type="checkbox" data-ng-model="newFeeling.public">
+  <button data-ng-click="newFeeling.owner=$root.currentUser._id; feelings.push(newFeeling)">Add</button>
   <button data-ng-click="removeAll()">Remove All</button>
 </form>
 <ul>
