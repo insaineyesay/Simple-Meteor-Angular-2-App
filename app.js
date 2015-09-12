@@ -35,9 +35,9 @@ if (Meteor.isClient) {
         $scope.feelings.remove();
       };
     }]);
-    angular.module('measure').controller('FeelingDetailsCtrl', ['$scope', '$stateParams',
-      function ($scope, $stateParams) {
-        $scope.feelingId = $stateParams.feelingId;
+    angular.module('measure').controller('FeelingDetailsCtrl', ['$scope', '$stateParams', '$meteor',
+      function ($scope, $stateParams, $meteor) {
+        $scope.feeling = $meteor.object(Feelings, $stateParams.feelingId);
       }
     ]);
 }
