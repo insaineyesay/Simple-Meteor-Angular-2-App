@@ -1,9 +1,38 @@
 Feelings = new Mongo.Collection("feelings");
 
 if (Meteor.isClient) {
-    angular.module('measure', ['angular-meteor']);
+    // inject dependencies
+    angular.module('measure', ['angular-meteor', 'ui.router']);
+    // configure routing
+    angular.module('measure').config(['$urlRouterProvider', '$stateProvider', '$locationProvider',
+      function ($urlRouterProvider, $stateProvider, $locationProvider) {
+        // html5 mode true
+        $locationProvider.html5Mode(true);
+        // routes
+        $stateProvider
+          .state('feelings', {
+            url: '/feelings',
+            templateUrl: 'feelings-list.ng.html',
+            controller: 'FeelingsListCtrl'
+          })
+          .state('feelingDetails', {
+            url: '/feelings/:feelingId',
+            templateUrl: 'feeling-details.ng.html',
+            controller: 'FeelingDetailsCtrl'
+          });
+
+          // catch all others
+          $urlRouterProvider.otherwise('/feelings');
+      }]);
+    // instantiate controller
     angular.module('measure').controller('MeasureCtrl', ['$scope', '$meteor', function ($scope, $meteor) {
       $scope.feelings = $meteor.collection(Feelings);
+      $scope.remove = function (feeling) {
+        $scope.feelings.remove(feeling);
+      };
+      $scope.removeAll = function () {
+        $scope.feelings.remove();
+      };
   }]);
 }
 
