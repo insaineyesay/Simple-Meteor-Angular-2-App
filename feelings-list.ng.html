@@ -8,7 +8,7 @@
 </form>
 <ul>
   <li ng-repeat="feeling in feelings">
-    <a href="/feelings/{{feeling.id}}">{{feeling.title}}</a>
+    <a href="/feelings/{{feeling._id}}">{{feeling.title}}</a>
     <p>{{feeling.description}}</p>
     <button ng-click="remove(feeling)">X</button>
   </li>

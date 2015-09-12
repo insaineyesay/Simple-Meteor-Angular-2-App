@@ -31,15 +31,15 @@ if (Meteor.isClient) {
         $scope.feelings.remove(feeling);
       };
 
-      angular.module('measure').controller('FeelingDetailsCtrl', ['$scope', '$stateParams',
-        function ($scope, $stateParams) {
-          $scope.feelingId = $stateParams.feelingId;
-        }
-      ]);
       $scope.removeAll = function () {
         $scope.feelings.remove();
       };
-  }]);
+    }]);
+    angular.module('measure').controller('FeelingDetailsCtrl', ['$scope', '$stateParams',
+      function ($scope, $stateParams) {
+        $scope.feelingId = $stateParams.feelingId;
+      }
+    ]);
 }
 
 if (Meteor.isServer) {
