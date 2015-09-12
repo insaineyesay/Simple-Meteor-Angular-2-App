@@ -1,10 +1,17 @@
 <p>Nothing here {{ 'yet' + '!' }}</p>
 
 <div ng-controller="MeasureCtrl">
+  <form>
+    <label>How's it going?</label>
+    <input data-ng-model="newFeeling.title">
+    <label>Description</label>
+    <input data-ng-model="newFeeling.description">
+    <button ng-click="feelings.push(newFeeling); newFeeling='';">Add</button>
+  </form>
   <ul>
-    <li ng-repeat="party in parties">
-      {{party.name}}
-      <p>{{party.description}}</p>
+    <li ng-repeat="feeling in feelings">
+      <p>{{feeling.title}}</p>
+      <p>{{feeling.description}}</p>
     </li>
   </ul>
 </div>
