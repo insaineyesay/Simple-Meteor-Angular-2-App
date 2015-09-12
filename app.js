@@ -24,12 +24,18 @@ if (Meteor.isClient) {
           // catch all others
           $urlRouterProvider.otherwise('/feelings');
       }]);
-    // instantiate controller
-    angular.module('measure').controller('MeasureCtrl', ['$scope', '$meteor', function ($scope, $meteor) {
+    // instantiate controllers
+    angular.module('measure').controller('FeelingsListCtrl', ['$scope', '$meteor', function ($scope, $meteor) {
       $scope.feelings = $meteor.collection(Feelings);
       $scope.remove = function (feeling) {
         $scope.feelings.remove(feeling);
       };
+
+      angular.module('measure').controller('FeelingDetailsCtrl', ['$scope', '$stateParams',
+        function ($scope, $stateParams) {
+          $scope.feelingId = $stateParams.feelingId;
+        }
+      ]);
       $scope.removeAll = function () {
         $scope.feelings.remove();
       };
