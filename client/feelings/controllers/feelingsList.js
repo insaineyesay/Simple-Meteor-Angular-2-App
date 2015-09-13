@@ -3,6 +3,7 @@ angular.module('measure').controller('FeelingsListCtrl', ['$scope', '$meteor', f
   $scope.page = 1;
   $scope.perPage = 10;
   $scope.sort = { name: 1 };
+  $scope.orderProperty = '1';
 
   $scope.feelings = $meteor.collection(function () {
     return Feelings.find({},  {
@@ -28,6 +29,11 @@ angular.module('measure').controller('FeelingsListCtrl', ['$scope', '$meteor', f
     $scope.page = newPage;
   };
 
+  $scope.$watch('orderProperty', function () {
+    if ($scope.orderProperty) {
+      $scope.sort = {name: parseInt($scope.orderProperty)};
+    }
+  });
   $scope.removeAll = function () {
     $scope.feelings.remove();
   };

@@ -9,6 +9,13 @@
   <button data-ng-click="removeAll()">Remove All</button>
 </form>
 <ul>
+  <h1>Emo Entries</h1>
+  <div>
+    <select data-ng-model="orderProperty">
+        <option value="1">Ascending</option>
+        <option value="-1">Descending</option>
+    </select>
+  </div>
   <li dir-paginate="feeling in feelings | itemsPerPage: perPage" total-items="feelingsCount.count">
     <a href="/feelings/{{feeling._id}}">{{feeling.title}}</a>
     <p>{{feeling.description}}</p>
