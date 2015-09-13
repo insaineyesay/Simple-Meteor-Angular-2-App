@@ -9,9 +9,10 @@
   <button data-ng-click="removeAll()">Remove All</button>
 </form>
 <ul>
-  <li ng-repeat="feeling in feelings">
+  <li dir-paginate="feeling in feelings | itemsPerPage: perPage" total-items="feelingsCount.count">
     <a href="/feelings/{{feeling._id}}">{{feeling.title}}</a>
     <p>{{feeling.description}}</p>
     <button ng-click="remove(feeling)">X</button>
   </li>
 </ul>
+<dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>

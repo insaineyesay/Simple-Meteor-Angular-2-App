@@ -13,3 +13,5 @@ urigo:angular-blaze-template
 accounts-facebook
 accounts-twitter
 accounts-github
+angularutils:pagination
+tmeasday:publish-counts
