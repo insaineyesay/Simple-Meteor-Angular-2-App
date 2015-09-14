@@ -2,7 +2,7 @@ angular.module('measure').controller('FeelingsListCtrl', ['$scope', '$meteor', f
 
   $scope.page = 1;
   $scope.perPage = 10;
-  $scope.sort = { name: 1 };
+  $scope.sort = { title: 1 };
   $scope.orderProperty = '1';
 
   $scope.feelings = $meteor.collection(function () {
@@ -14,9 +14,9 @@ angular.module('measure').controller('FeelingsListCtrl', ['$scope', '$meteor', f
   $meteor.autorun($scope, function () {
     $meteor.subscribe('feelings', {
       limit: parseInt($scope.getReactively('perPage')),
-      skip: parseInt($scope.getReactively('page') - 1) * parseInt($scope.getReactively('perPage')),
-      sort: $scope.sort
-    }).then(function (feeling) {
+      skip: (parseInt($scope.getReactively('page')) - 1) * parseInt($scope.getReactively('perPage')),
+      sort: $scope.getReactively('sort')
+    }, $scope.getReactively('search')).then(function () {
       $scope.feelingsCount = $meteor.object(Counts, 'numberOfFeelings', false);
     });
   });
@@ -31,7 +31,7 @@ angular.module('measure').controller('FeelingsListCtrl', ['$scope', '$meteor', f
 
   $scope.$watch('orderProperty', function () {
     if ($scope.orderProperty) {
-      $scope.sort = {name: parseInt($scope.orderProperty)};
+      $scope.sort = {title: parseInt($scope.orderProperty)};
     }
   });
   $scope.removeAll = function () {
