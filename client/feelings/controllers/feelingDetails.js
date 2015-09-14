@@ -3,6 +3,16 @@ angular.module('measure').controller('FeelingDetailsCtrl', ['$scope', '$statePar
     $scope.feeling = $meteor.object(Feelings, $stateParams.feelingId);
     $scope.users = $meteor.collection(Meteor.users, false).subscribe('users');
     $scope.$meteorSubscribe('feelings');
+    $scope.invite = function (user) {
+      $meteor.call('invite', $scope.feeling._id, user._id).then(
+        function (data) {
+          console.log('success inviting', data);
+        },
+        function (err) {
+          console.log('failed', err);
+        }
+      );
+    };
     $scope.save = function () {
       $scope.feeling.save()
         .then(function (numberOfDocs) {

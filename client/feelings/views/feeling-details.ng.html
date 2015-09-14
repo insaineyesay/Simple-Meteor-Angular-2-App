@@ -8,6 +8,7 @@ Here are the details for entry: {{ feelingId }}
   Users to invite:
   <li data-ng-repeat="user in users | uninvited:feeling">
     <div>{{ user | displayName }}</div>
+    <button ng-click="invite(user)">Invite</button>
   </li>
 </ul>
 <button data-ng-click="save()">Save</button>
