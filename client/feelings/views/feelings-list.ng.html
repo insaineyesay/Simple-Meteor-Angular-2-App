@@ -21,6 +21,7 @@
     <a href="/feelings/{{feeling._id}}">{{feeling.title}}</a>
     <p>{{feeling.description}}</p>
     <button ng-click="remove(feeling)">X</button>
+    <p><small>Posted by {{ creator(feeling) | displayName }}</small></p>
   </li>
 </ul>
 <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>

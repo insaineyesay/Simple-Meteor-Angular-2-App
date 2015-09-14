@@ -1,9 +1,11 @@
-angular.module('measure').controller('FeelingsListCtrl', ['$scope', '$meteor', function ($scope, $meteor) {
+angular.module('measure').controller('FeelingsListCtrl', ['$scope', '$meteor', '$rootScope', function ($scope, $meteor, $rootScope) {
 
   $scope.page = 1;
   $scope.perPage = 10;
   $scope.sort = { title: 1 };
   $scope.orderProperty = '1';
+
+  $scope.$meteorSubscribe('users');
 
   $scope.feelings = $meteor.collection(function () {
     return Feelings.find({},  {
@@ -36,5 +38,29 @@ angular.module('measure').controller('FeelingsListCtrl', ['$scope', '$meteor', f
   });
   $scope.removeAll = function () {
     $scope.feelings.remove();
+  };
+
+  $scope.getUserById = function (userId) {
+    return Meteor.users.findOne(userId);
+  };
+
+  $scope.creator = function (feeling) {
+    if (!feeling) {
+      return;
+    }
+
+    var owner = $scope.getUserById(feeling.owner);
+    if (!owner) {
+      return 'nobody';
+    }
+
+    if ($rootScope.currentUser) {
+      if ($rootScope.currentUser._id) {
+        if (owner._id === $rootScope.currentUser._id) {
+          return 'me';
+        }
+      }
+    }
+    return owner;
   };
 }]);

@@ -5,9 +5,9 @@ Here are the details for entry: {{ feelingId }}
 <input type="checkbox" data-ng-model="feeling.public">
 
 <ul>
-  Users:
-  <li ng-repeat="user in users">
-    <div>{{ user.emails[0].address }}</div>
+  Users to invite:
+  <li data-ng-repeat="user in users | uninvited:feeling">
+    <div>{{ user | displayName }}</div>
   </li>
 </ul>
 <button data-ng-click="save()">Save</button>
