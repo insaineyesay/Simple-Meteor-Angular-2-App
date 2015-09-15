@@ -5,7 +5,7 @@ angular.module('measure').controller('FeelingsListCtrl', ['$scope', '$meteor', '
   $scope.sort = { title: 1 };
   $scope.orderProperty = '1';
 
-  $scope.$meteorSubscribe('users');
+  $scope.users = $meteor.collection(Meteor.users, false).subscribe('users');
 
   $scope.feelings = $meteor.collection(function () {
     return Feelings.find({},  {
@@ -36,6 +36,23 @@ angular.module('measure').controller('FeelingsListCtrl', ['$scope', '$meteor', '
       $scope.sort = {title: parseInt($scope.orderProperty)};
     }
   });
+
+  $scope.rsvp = function (feelingId, rsvp) {
+    $meteor.call('rsvp', feelingId, rsvp).then(
+      function(data) {
+        console.log('succes responding', data);
+      },
+      function (err) {
+        console.log('failed', err);
+      }
+    );
+  };
+  $scope.outstandingInvitations = function (feeling) {
+      return _.filter($scope.users, function (user) {
+        return (_.contains(feeling.invited, user._id) &&
+        !_.findWhere(feeling.rsvps, {user: user._id}));
+      });
+    };
   $scope.removeAll = function () {
     $scope.feelings.remove();
   };
