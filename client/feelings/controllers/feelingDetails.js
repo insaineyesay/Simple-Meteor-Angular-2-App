@@ -13,6 +13,15 @@ angular.module('measure').controller('FeelingDetailsCtrl', ['$scope', '$statePar
         }
       );
     };
+
+    $scope.canInvite = function (){
+      if (!$scope.party)
+        return false;
+
+      return !$scope.party.public &&
+        $scope.party.owner === Meteor.userId();
+    };
+    
     $scope.save = function () {
       $scope.feeling.save()
         .then(function (numberOfDocs) {
