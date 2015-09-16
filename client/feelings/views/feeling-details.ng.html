@@ -1,14 +1,17 @@
 Here are the details for entry: {{ feelingId }}
-<input data-ng-model="feeling.title">
-<input data-ng-model="feeling.description">
+<input data-ng-model="feeling.title" data-ng-disabled="feeling.owner !== $root.currentUser._id">
+<input data-ng-model="feeling.description" data-ng-disabled="feeling.owner !== $root.currentUser._id">
 <label>Is public</label>
-<input type="checkbox" data-ng-model="feeling.public">
+<input type="checkbox" data-ng-model="feeling.public" data-ng-disabled="feeling.owner !== $root.currentUser._id">
 
-<ul>
+<ul data-ng-show="canInvite()">
   Users to invite:
   <li data-ng-repeat="user in users | uninvited:feeling">
     <div>{{ user | displayName }}</div>
     <button ng-click="invite(user)">Invite</button>
+  </li>
+  <li ng-if="(users | uninvited:feeling).length <= 0">
+    Everyone are already invited.
   </li>
 </ul>
 <button data-ng-click="save()">Save</button>
