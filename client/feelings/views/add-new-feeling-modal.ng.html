@@ -1,0 +1,24 @@
+<div class="container-fluid ma-add-new-feeling-container">
+  <div class="alert alert-info" ng-hide="$root.currentUser || $root.loggingIn">
+    Please log in to create a feeling!
+  </div>
+ 
+  <form ng-show="$root.currentUser || $root.loggingIn">
+    <h2>Create a new feeling</h2>
+ 
+    <div class="form-group">
+      <label for="nameInput">Name</label>
+      <input ng-model="newFeeling.name" id="nameInput" type="text" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <input ng-model="newFeeling.description" id="description" type="text" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="public">
+        <input type="checkbox" ng-model="newFeeling.public" id="public"> Public
+      </label>
+    </div>
+    <button ng-click="addNewFeeling()" class="btn">Add</button>
+  </form>
+</div>

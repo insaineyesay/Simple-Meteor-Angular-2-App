@@ -17,3 +17,6 @@ angularutils:pagination
 tmeasday:publish-counts
 email
 angularui:angular-google-maps
+twbs:bootstrap
+less
+angularui:angular-ui-bootstrap@0.13.0
