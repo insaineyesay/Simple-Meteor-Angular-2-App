@@ -9,7 +9,7 @@
   <button data-ng-click="removeAll()">Remove All</button>
 </form>
 <div data-ng-hide="$root.currentUser || $root.loggingIn">
-  Log in to create a party!
+  Log in to create a feeling!
 </div>
 <ul>
   <h1>Emo Entries</h1>
@@ -19,6 +19,13 @@
         <option value="1">Ascending</option>
         <option value="-1">Descending</option>
     </select>
+  </div>
+  <div class="angular-google-map-container">
+    <ui-gmap-google-map center="feeling.location || map.center" zoom="map.zoom">
+      <ui-gmap-markers models="feelings" coords="'location'" click="onClicked()"
+                       fit="true" idkey="'_id'" doRebuildAll="true">
+      </ui-gmap-markers>
+    </ui-gmap-google-map>
   </div>
   <li dir-paginate="feeling in feelings | itemsPerPage: perPage" total-items="feelingsCount.count">
     <a href="/feelings/{{feeling._id}}">{{feeling.title}}</a>
@@ -31,7 +38,7 @@
       <input type="button" value="No" ng-click="rsvp(feeling._id, 'no')">
     </div>
     <div ng-hide="$root.currentUser">
-      <i>Sign in to RSVP for this party.</i>
+      <i>Sign in to RSVP for this feeling.</i>
     </div>
     <div>
       Who is coming:
