@@ -1,24 +1,34 @@
-<div class="container-fluid ma-add-new-feeling-container">
-  <div class="alert alert-info" ng-hide="$root.currentUser || $root.loggingIn">
-    Please log in to create a feeling!
-  </div>
- 
-  <form ng-show="$root.currentUser || $root.loggingIn">
-    <h2>Create a new feeling</h2>
- 
-    <div class="form-group">
-      <label for="nameInput">Name</label>
-      <input ng-model="newFeeling.name" id="nameInput" type="text" class="form-control">
+<md-dialog aria-label="Mango (Fruit)">
+  <form>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2> Create a new feeling</h2>
+        <span flex></span>
+      </div>
+    </md-toolbar>
+    <md-dialog-content style="min-width:300px;max-width:800px;max-height:810px; ">
+      <div  ng-show="$root.currentUser">
+        <md-input-container>
+          <label>Name</label>
+          <input ng-model="newFeeling.name" id="nameInput" type="text" aria-label="Name">
+        </md-input-container>
+        <md-input-container>
+          <label>Description</label>
+          <input ng-model="newFeeling.description" id="description" type="text" aria-label="Description">
+        </md-input-container>
+        <md-checkbox ng-model="newFeeling.public" id="public" aria-label="Public">
+          Public
+        </md-checkbox>
+      </div>
+    </md-dialog-content>
+    <div class="md-actions" layout="row">
+      <span flex></span>
+      <md-button ng-click="close()">
+        Close
+      </md-button>
+      <md-button ng-click="addNewFeeling()" style="margin-right:20px;">
+        Add
+      </md-button>
     </div>
-    <div class="form-group">
-      <label for="description">Description</label>
-      <input ng-model="newFeeling.description" id="description" type="text" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="public">
-        <input type="checkbox" ng-model="newFeeling.public" id="public"> Public
-      </label>
-    </div>
-    <button ng-click="addNewFeeling()" class="btn">Add</button>
   </form>
-</div>
+</md-dialog>

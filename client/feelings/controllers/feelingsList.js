@@ -3,9 +3,9 @@ angular.module('measure').controller('FeelingsListCtrl', [
     '$meteor',
     '$rootScope',
     '$state',
-    '$modal',
+    '$mdDialog',
 
-    function($scope, $meteor, $rootScope, $state, $modal) {
+    function($scope, $meteor, $rootScope, $state, $mdDialog) {
 
         $scope.page = 1;
         $scope.perPage = 10;
@@ -169,8 +169,8 @@ angular.module('measure').controller('FeelingsListCtrl', [
         });
 
         $scope.openAddNewFeelingModal = function() {
-            var modalInstance = $modal.open({
-                animation: true,
+                $mdDialog.show({
+                clickOutsideToClose: true,
                 templateUrl: 'client/feelings/views/add-new-feeling-modal.ng.html',
                 controller: 'addNewFeelingCtrl',
                 resolve: {
@@ -178,9 +178,10 @@ angular.module('measure').controller('FeelingsListCtrl', [
                         return $scope.feelings;
                     }
                 }
-            });
-            modalInstance.result.then(function() {}, function() {
-
+            }).then(function (answer) {
+                $scope.status = 'You said the information was "' + answer + '".';
+            }, function () {
+                $scope.status = 'You cancelled the dialog.';
             });
         };
 

@@ -4,14 +4,20 @@ angular.module('measure')
         '$meteor',
         '$rootScope',
         '$state',
-        '$modalInstance',
+        '$mdDialog',
         'feelings',
-        function($scope, $meteor, $rootScope, $state, $modalInstance, feelings) {
-            $scope.addNewFeeling = function() {
+        function($scope, $meteor, $rootScope, $state, $mdDialog, feelings) {
+            $scope.newFeeling = {};
+            $scope.addNewFeeling = function () {
+            if ($scope.newFeeling.name) {
                 $scope.newFeeling.owner = $rootScope.currentUser._id;
                 feelings.push($scope.newFeeling);
                 $scope.newFeeling = '';
-                $modalInstance.close();
-            };
+                $mdDialog.hide();
+            }
         }
-    ]);
+
+        $scope.close = function() {
+            $mdDialog.hide();
+        }
+    }]);
