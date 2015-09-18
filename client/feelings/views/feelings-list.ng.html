@@ -1,70 +1,69 @@
-<form data-ng-show="$root.currentUser">
-  <label>How's it going?</label>
-  <input data-ng-model="newFeeling.title">
-  <label>Description</label>
-  <textarea type="text" data-ng-model="newFeeling.description"></textarea>
-  <label>Public</label>
-  <input type="checkbox" data-ng-model="newFeeling.public">
-  <button data-ng-click="newFeeling.owner=$root.currentUser._id; feelings.push(newFeeling)">Add</button>
-  <button data-ng-click="removeAll()">Remove All</button>
-</form>
-<div data-ng-hide="$root.currentUser || $root.loggingIn">
-  Log in to create a feeling!
-</div>
-<ul>
-  <h1>Emo Entries</h1>
-  <div>
-    <input type="search" data-ng-model="search" placeholder="Search">
-    <select data-ng-model="orderProperty">
-        <option value="1">Ascending</option>
-        <option value="-1">Descending</option>
-    </select>
-  </div>
-  <div class="angular-google-map-container">
-    <ui-gmap-google-map center="feeling.location || map.center" zoom="map.zoom">
-      <ui-gmap-markers models="feelings" coords="'location'" click="onClicked()"
-                       fit="true" idkey="'_id'" doRebuildAll="true">
-      </ui-gmap-markers>
-    </ui-gmap-google-map>
-  </div>
-  <li dir-paginate="feeling in feelings | itemsPerPage: perPage" total-items="feelingsCount.count">
-    <a href="/feelings/{{feeling._id}}">{{feeling.title}}</a>
-    <p>{{feeling.description}}</p>
-    <button data-ng-click="remove(feeling)" data-ng-show="$root.currentUser && $root.currentUser._id == feeling.owner">X</button>
-    <button ng-click="remove(feeling)">X</button>
-    <div data-ng-show="$root.currentUser">
-      <input type="button" value="I'm going!" ng-click="rsvp(feeling._id, 'yes')">
-      <input type="button" value="Maybe" ng-click="rsvp(feeling._id, 'maybe')">
-      <input type="button" value="No" ng-click="rsvp(feeling._id, 'no')">
+<md-content flex-gt-sm layout-gt-sm="row" class="ma-feelings-list">
+    <div layout-gt-sm="row" flex-gt-sm>
+        <div flex-gt-sm="50" flex-sm>
+            <div>
+                <div layout-padding layout="row">
+                    <md-input-container style="width:50%;margin-right:10px;">
+                        <label>Search</label>
+                        <input type="text" ng-model="search" />
+                    </md-input-container>
+                    <md-select ng-model="orderProperty" placeholder="Sort Order">
+                        <md-option value="1">Ascending</md-option>
+                        <md-option value="-1">Descending</md-option>
+                    </md-select>
+                    <md-button class="md-fab" aria-label="Eat cake" ng-click="openAddNewFeelingModal()">
+                        <md-icon md-font-set="material-icons"> add </md-icon>
+                    </md-button>
+                </div>
+            </div>
+            <md-content class="md-padding" style="padding-top:0;">
+                <div dir-paginate="feeling in feelings | itemsPerPage: perPage" total-items="feelingsCount.count" class="ma-feeling">
+                    <md-card>
+                        <md-card-content>
+                            <a href="/feelings/{{feeling._id}}"><h2 class="md-title ma-name" style="">{{feeling.name}}</h2></a>
+                            <p class="ma-description" style="padding:0 10px;margin-bottom:35px;margin-top: 6px;">{{feeling.description}}</p>
+                            <div layout="row">
+                                <div flex="1">
+                                    <p style="margin-top:0px;margin-bottom:3px;font-size:14px;color:#aaa;">
+                                        <small>Posted by {{ creator(feeling) | displayName }}</small>
+                                        <span ng-if="feeling.public" style="font-size:12px;color:#999;">| Everyone is invited</span>
+                                    </p>
+                                    <div ng-show="$root.currentUser" class="md-actions" layout="row">
+                                        <md-button ng-click="rsvp(feeling._id, 'yes')">I'm going!</md-button>
+                                        <md-button ng-click="rsvp(feeling._id, 'maybe')">Maybe</md-button>
+                                        <md-button ng-click="rsvp(feeling._id, 'no')">No</md-button>
+                                    </div>
+                                </div>
+                                <div layout="row" layout-align="end end">
+                                    <div ng-hide="$root.currentUser" style="font-size:13px;margin-bottom:10px;">
+                                        Sign in to RSVP for this feeling
+                                    </div>
+                                    <div>
+                                        <div class="rsvps-sum">
+                                            <div class="rsvps-amount">{{ (feeling.rsvps | filter:{rsvp:'yes'}).length || "0" }}</div>
+                                            <div class="rsvps-title">Yes</div>
+                                        </div>
+                                        <div class="rsvps-sum">
+                                            <div class="rsvps-amount">{{ (feeling.rsvps | filter:{rsvp:'maybe'}).length || "0" }}</div>
+                                            <div class="rsvps-title">Maybe</div>
+                                        </div>
+                                        <div class="rsvps-sum">
+                                            <div class="rsvps-amount">{{ (feeling.rsvps | filter:{rsvp:'no'}).length || "0" }}</div>
+                                            <div class="rsvps-title">No</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </md-card-content>
+                    </md-card>
+                </div>
+            </md-content>
+        </div>
+        <div flex-gt-sm="50" flex-sm layout="row" style="min-height:300px;">
+            <ui-gmap-google-map options="map.options" center="map.center" zoom="map.zoom" flex layout="row">
+                <ui-gmap-markers models="feelings" coords="'location'" click="onClicked()" fit="true" idkey="'_id'" doRebuildAll="true">
+                </ui-gmap-markers>
+            </ui-gmap-google-map>
+        </div>
     </div>
-    <div ng-hide="$root.currentUser">
-      <i>Sign in to RSVP for this feeling.</i>
-    </div>
-    <div>
-      Who is coming:
-      Yes - {{ (feeling.rsvps | filter:{rsvp:'yes'}).length }}
-      Maybe - {{ (feeling.rsvps | filter:{rsvp:'maybe'}).length }}
-      No - {{ (feeling.rsvps | filter:{rsvp:'no'}).length }}
-      <div ng-repeat="rsvp in feeling.rsvps | filter:{rsvp:'yes'}">
-        {{ getUserById(rsvp.user) | displayName }} - {{ rsvp.rsvp }}
-      </div>
-      <div ng-repeat="rsvp in feeling.rsvps | filter:{rsvp:'maybe'}">
-        {{ getUserById(rsvp.user) | displayName }} - {{ rsvp.rsvp }}
-      </div>
-      <div ng-repeat="rsvp in feeling.rsvps | filter:{rsvp:'no'}">
-        {{ getUserById(rsvp.user) | displayName }} - {{ rsvp.rsvp }}
-      </div>
-    </div>
-    <ul data-ng-if="!feeling.public">
-      Users who have not responded:
-      <li ng-repeat="invitedUser in outstandingInvitations(feeling)">
-        {{ invitedUser | displayName }}
-      </li>
-    </ul>
-    <div ng-if="feeling.public">
-      Everyone is invited
-    </div>
-    <p><small>Posted by {{ creator(feeling) | displayName }}</small></p>
-  </li>
-</ul>
-<dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+</md-content>

@@ -1,34 +1,41 @@
-Here are the details for entry: {{ feelingId }}
-<input data-ng-model="feeling.title" data-ng-disabled="feeling.owner !== $root.currentUser._id">
-<input data-ng-model="feeling.description" data-ng-disabled="feeling.owner !== $root.currentUser._id">
-<label>Is public</label>
-<input type="checkbox" data-ng-model="feeling.public" data-ng-disabled="feeling.owner !== $root.currentUser._id">
-
-<ul data-ng-show="canInvite()">
-  Users to invite:
-  <li data-ng-repeat="user in users | uninvited:feeling">
-    <div>{{ user | displayName }}</div>
-    <button ng-click="invite(user)">Invite</button>
-  </li>
-  <li ng-if="(users | uninvited:feeling).length <= 0">
-    Everyone are already invited.
-  </li>
-</ul>
-
-<div class="feeling-details-maps">
-  <div class="angular-google-map-container">
-    <ui-gmap-google-map 
-        center="feeling.location || map.center"
-        events="map.events" zoom="map.zoom">
-    <ui-gmap-marker 
-        coords="feeling.location" 
-        options="map.marker.options"
-        events="map.marker.events"
-        idkey="feeling._id">
-    </ui-gmap-marker>
-    </ui-gmap-google-map>
-  </div>
+<div layout="row" flex class="ma-feeling-details">
+    <div flex="33" offset="33">
+        <legend style="margin:20px 0;">
+            Here you will see and change the details of the feeling:
+        </legend>
+        <form layout="column">
+            <md-input-container>
+                <label>Feeling Name</label>
+                <input ng-model="feeling.name" ng-disabled="feeling.owner != $root.currentUser._id" type="text" aria-label="Name">
+            </md-input-container>
+            <md-input-container>
+                <label>Feeling Description</label>
+                <input ng-model="feeling.description" ng-disabled="feeling.owner != $root.currentUser._id" type="text" aria-label="Description">
+            </md-input-container>
+            <md-checkbox ng-model="feeling.public" ng-disabled="feeling.owner != $root.currentUser._id" aria-label="Public">
+                Is public
+            </md-checkbox>
+            <div layout="row" layout-align="left">
+                <md-button ng-click="save()">Save</md-button>
+                <md-button ng-click="reset()">Reset form</md-button>
+                <md-button ng-href="/feelings">Cancel</md-button>
+            </div>
+            <md-list ng-show="canInvite()">
+                <md-subheader class="md-no-sticky">Users to invite:</md-subheader>
+                <md-list-item ng-repeat="user in users | uninvited:feeling">
+                    <div>{{ user | displayName }}</div>
+                    <md-button ng-click="invite(user)">Invite</md-button>
+                </md-list-item>
+                <md-list-item ng-if="(users | uninvited:feeling).length <= 0">
+                    Everyone are already invited.
+                </md-list-item>
+            </md-list>
+            <div class="angular-google-map-container">
+                <ui-gmap-google-map center="map.center" events="map.events" zoom="map.zoom">
+                    <ui-gmap-marker coords="feeling.location" options="map.marker.options" events="map.marker.events" idkey="feeling._id">
+                    </ui-gmap-marker>
+                </ui-gmap-google-map>
+            </div>
+        </form>
+    </div>
 </div>
-<button data-ng-click="save()">Save</button>
-<button data-ng-click="reset()">Reset</button>
-<button data-ui-sref="feelings">Cancel</button>
