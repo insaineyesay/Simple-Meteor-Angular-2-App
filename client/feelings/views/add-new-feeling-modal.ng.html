@@ -1,34 +1,75 @@
-<md-dialog aria-label="Mango (Fruit)">
-  <form>
-    <md-toolbar>
-      <div class="md-toolbar-tools">
-        <h2> Create a new feeling</h2>
-        <span flex></span>
-      </div>
-    </md-toolbar>
-    <md-dialog-content style="min-width:300px;max-width:800px;max-height:810px; ">
-      <div ng-show="$root.currentUser">
-        <md-input-container>
-          <label>Name</label>
-          <input ng-model="newFeeling.title" id="nameInput" type="text" aria-label="Name">
-        </md-input-container>
-        <md-input-container>
-          <label>Description</label>
-          <input ng-model="newFeeling.description" id="description" type="text" aria-label="Description">
-        </md-input-container>
-        <md-checkbox ng-model="newFeeling.public" id="public" aria-label="Public">
-          Public
-        </md-checkbox>
-      </div>
-    </md-dialog-content>
-    <div class="md-actions" layout="row">
-      <span flex></span>
-      <md-button ng-click="close()">
-        Close
-      </md-button>
-      <md-button ng-click="addNewFeeling()" style="margin-right:20px;">
-        Add
-      </md-button>
-    </div>
-  </form>
+<md-dialog>
+    <div class="like-form">
+        <form>
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h2> Create a new feeling</h2>
+                    <span flex></span>
+                </div>
+            </md-toolbar>
+            <md-dialog-content style="min-width:800px;max-width:800px;max-height:100%; ">
+                <div ng-show="$root.currentUser">
+                    <md-input-container>
+                        <label>Name</label>
+                        <input ng-model="newFeeling.title" id="nameInput" type="text" aria-label="Name">
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Description</label>
+                        <input ng-model="newFeeling.description" id="description" type="text" aria-label="Description">
+                    </md-input-container>
+                    <md-whiteframe class="md-whiteframe-z1" layout="column">
+                        <div layout="row" class="images-container-title">
+                            <div flex>
+                                <h3>Add photos to your Entry!</h3>
+                                <div ng-controller="AddPhotoCtrl">
+                                    <div data-ng-hide="imgSrcn" gf-drop ngf-select ngf-change="addImages($files)" ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}" class="drop-box" ngf-multiple="false" ngf-allow-dir="false" ngf-accept="'image/*'" ngf-drop-available="dropAvailable">
+                                        <div>Click here to select image</div>
+                                        <div>
+                                            <strong>OR</strong>
+                                        </div>
+                                        <div ng-show="dropAvailable">You can also drop image to here</div>
+                                    </div>
+                                    <div data-ng-show="imgSrc" class="ng-crop-container">
+                                        <h3>Great! Now edit & crop your image...</h3>
+                                        <md-button ng-click="saveCroppedImage()" ng-disabled="!imgSrc" class="md-primary">
+                                            Save Image
+                                        </md-button>
+                                        <img-crop image="imgSrc" result-image="myCroppedImage" area-type="square"></img-crop>
+                                    </div>
+                                </div>
+                                <div layout="row" class="images-container-title">
+                                    <div class="feeling-image-container" ng-repeat="image in newEntryImages">
+                                        <img ng-src="{{ image.url() }}" />
+                                        <br/>
+                                        <div layout="row" class="images-container-title" sv-root sv-part="newPartyImages">
+                                            <div sv-element class="party-image-container" ng-repeat="image in newPartyImages">
+                                                <div class="main-image" data-ng-show="$index === 0">Main Image</div>
+                                                <img draggable="false" data-ng-src="{{ image.url({store: 'thumbnail'}) }}" />
+                                                <br/>
+                                                <a href="#" 
+                                                    editable-text="image.metadata.description" 
+                                                    onbeforesave="updateDescription($data, image)">{{ image.metadata.description || 'Click to add description'}}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+                            </div>
+                    </md-whiteframe>
+                    <md-checkbox ng-model="newFeeling.public" id="public" aria-label="Public">
+                        Public
+                    </md-checkbox>
+                    </div>
+            </md-dialog-content>
+            <div class="md-actions" layout="row">
+                <span flex></span>
+                <md-button ng-click="close()">
+                    Close
+                </md-button>
+                <md-button ng-click="addNewFeeling()" style="margin-right:20px;">
+                    Add
+                </md-button>
+            </div>
+        </form>
+        </div>
 </md-dialog>

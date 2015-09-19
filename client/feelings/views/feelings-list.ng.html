@@ -19,6 +19,10 @@
             <md-content class="md-padding" style="padding-top:0;">
                 <div dir-paginate="feeling in feelings | itemsPerPage: perPage" total-items="feelingsCount.count" class="ma-feeling">
                     <md-card>
+                        <div data-ng-if="feeling.images && feeling.images.length > 0"
+                            data-ng-style="getMainImage(feeling.images)"
+                            class="feeling-image">
+                        </div>
                         <md-card-content>
                             <h2 class="md-title ma-name" style="">
                                 <a href="/feelings/{{feeling._id}}">{{feeling.title}}</a>
