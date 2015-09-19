@@ -21,3 +21,5 @@ less
 angularui:angular-ui-bootstrap@0.13.0
 angular:angular-material
 planettraining:material-design-icons
+cfs:standard-packages
+cfs:gridfs
