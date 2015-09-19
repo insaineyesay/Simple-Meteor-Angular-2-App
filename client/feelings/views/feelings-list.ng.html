@@ -20,7 +20,9 @@
                 <div dir-paginate="feeling in feelings | itemsPerPage: perPage" total-items="feelingsCount.count" class="ma-feeling">
                     <md-card>
                         <md-card-content>
-                            <a href="/feelings/{{feeling._id}}"><h2 class="md-title ma-name" style="">{{feeling.name}}</h2></a>
+                            <h2 class="md-title ma-name" style="">
+                                <a href="/feelings/{{feeling._id}}">{{feeling.title}}</a>
+                            </h2>
                             <p class="ma-description" style="padding:0 10px;margin-bottom:35px;margin-top: 6px;">{{feeling.description}}</p>
                             <div layout="row">
                                 <div flex="1">

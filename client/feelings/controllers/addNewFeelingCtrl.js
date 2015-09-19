@@ -9,7 +9,7 @@ angular.module('measure')
         function($scope, $meteor, $rootScope, $state, $mdDialog, feelings) {
             $scope.newFeeling = {};
             $scope.addNewFeeling = function () {
-            if ($scope.newFeeling.name) {
+            if ($scope.newFeeling.title) {
                 $scope.newFeeling.owner = $rootScope.currentUser._id;
                 feelings.push($scope.newFeeling);
                 $scope.newFeeling = '';
