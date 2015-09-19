@@ -4,8 +4,8 @@ angular.module('measure').controller('FeelingsListCtrl', [
     '$rootScope',
     '$state',
     '$mdDialog',
-
-    function($scope, $meteor, $rootScope, $state, $mdDialog) {
+    '$filter',
+    function($scope, $meteor, $rootScope, $state, $mdDialog, $filter) {
 
         $scope.page = 1;
         $scope.perPage = 10;
@@ -29,6 +29,7 @@ angular.module('measure').controller('FeelingsListCtrl', [
                 sort: $scope.getReactively('sort')
             }, $scope.getReactively('search')).then(function() {
                 $scope.feelingsCount = $meteor.object(Counts, 'numberOfFeelings', false);
+
                 $scope.feelings.forEach(function(feeling) {
                     feeling.onClicked = function() {
                         $state.go('feelingDetails', {
@@ -170,9 +171,9 @@ angular.module('measure').controller('FeelingsListCtrl', [
 
         $scope.openAddNewFeelingModal = function() {
                 $mdDialog.show({
+                controller: 'addNewFeelingCtrl',
                 clickOutsideToClose: true,
                 templateUrl: 'client/feelings/views/add-new-feeling-modal.ng.html',
-                controller: 'addNewFeelingCtrl',
                 resolve: {
                     feelings: function() {
                         return $scope.feelings;
@@ -185,16 +186,7 @@ angular.module('measure').controller('FeelingsListCtrl', [
             });
         };
 
-        $scope.isRSVP = function(rsvp, feeling) {
-            if (!$rootScope.currentUser._id) return false;
-            var rsvpIndex = feeling.myRsvpIndex;
-            rsvpIndex = rsvpIndex || _.indexOf(_.pluck(feeling.rsvps, 'user'), $rootScope.currentUser._id);
-
-            if (rsvpIndex !== -1) {
-                feeling.myRsvpIndex = rsvpIndex;
-                return feeling.rsvps[rsvpIndex].rsvp === rsvp;
-            }
-        }
+        
 
         $scope.rsvp = function(feelingId, rsvp) {
             $meteor.call('rsvp', feelingId, rsvp).then(
@@ -215,6 +207,17 @@ angular.module('measure').controller('FeelingsListCtrl', [
                     }));
             });
         };
+        $scope.isRSVP = function(rsvp, feeling) {
+            if (!$rootScope.currentUser._id) return false;
+            var rsvpIndex = feeling.myRsvpIndex;
+            rsvpIndex = rsvpIndex || _.indexOf(_.pluck(feeling.rsvps, 'user'), $rootScope.currentUser._id);
+
+            if (rsvpIndex !== -1) {
+                feeling.myRsvpIndex = rsvpIndex;
+                return feeling.rsvps[rsvpIndex].rsvp === rsvp;
+            }
+        };
+
         $scope.removeAll = function() {
             $scope.feelings.remove();
         };
