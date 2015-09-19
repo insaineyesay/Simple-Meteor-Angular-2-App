@@ -1,4 +1,4 @@
-angular.module("measure").controller("AddPhotoCtrl", ['$scope',
+angular.module("measure").controller("AddPhotoCtrl", ['$scope', '$meteor', '$rootScope', '$state', '$mdDialog',
     function($scope, $meteor, $rootScope, $state, $mdDialog) {
         $scope.addImages = function(files) {
             if (files.length > 0) {
