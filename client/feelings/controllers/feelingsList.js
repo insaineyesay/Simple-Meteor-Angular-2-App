@@ -15,12 +15,23 @@ angular.module('measure').controller('FeelingsListCtrl', [
         $scope.orderProperty = '1';
 
         $scope.users = $meteor.collection(Meteor.users, false).subscribe('users');
+        $scope.images = $meteor.collectionFS(Images, false, Images).subscribe('images');
 
         $scope.feelings = $meteor.collection(function() {
             return Feelings.find({}, {
                 sort: $scope.getReactively('sort')
             });
         });
+
+        $scope.getMainImage = function (images) {
+            if (images && images.length && images[0] && images[0].id) {
+                var url = $filter('filter')($scope.images, {_id: images[0].id})[0].url();
+                
+                return {
+                    'background-image': 'url("' + url + '")'
+                }  
+            }
+        };
 
         $meteor.autorun($scope, function() {
             $meteor.subscribe('feelings', {
@@ -170,7 +181,7 @@ angular.module('measure').controller('FeelingsListCtrl', [
         });
 
         $scope.openAddNewFeelingModal = function() {
-                $mdDialog.show({
+            $mdDialog.show({
                 controller: 'addNewFeelingCtrl',
                 clickOutsideToClose: true,
                 templateUrl: 'client/feelings/views/add-new-feeling-modal.ng.html',
@@ -179,14 +190,14 @@ angular.module('measure').controller('FeelingsListCtrl', [
                         return $scope.feelings;
                     }
                 }
-            }).then(function (answer) {
+            }).then(function(answer) {
                 $scope.status = 'You said the information was "' + answer + '".';
-            }, function () {
+            }, function() {
                 $scope.status = 'You cancelled the dialog.';
             });
         };
 
-        
+
 
         $scope.rsvp = function(feelingId, rsvp) {
             $meteor.call('rsvp', feelingId, rsvp).then(

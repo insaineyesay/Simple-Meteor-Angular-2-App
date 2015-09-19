@@ -6,6 +6,7 @@ accounts-password@1.1.1
 accounts-twitter@1.0.4
 accounts-ui@1.1.5
 accounts-ui-unstyled@1.1.7
+alexk111:ng-img-crop@0.3.2
 angular@1.0.0-rc.5
 angular:angular@1.4.6
 angular:angular-animate@1.4.6
@@ -28,6 +29,7 @@ cfs:collection@0.5.5
 cfs:collection-filters@0.2.4
 cfs:data-man@0.0.6
 cfs:file@0.1.17
+cfs:graphicsmagick@0.0.18
 cfs:gridfs@0.0.33
 cfs:http-methods@0.0.30
 cfs:http-publish@0.0.13
@@ -40,6 +42,7 @@ cfs:tempstore@0.1.5
 cfs:upload-http@0.0.20
 cfs:worker@0.1.4
 check@1.0.5
+danialfarid:ng-file-upload@5.0.9
 dburles:mongo-collection-instances@0.3.4
 ddp@1.1.0
 deps@1.0.7
@@ -68,6 +71,7 @@ minimongo@1.0.8
 mobile-status-bar@1.0.3
 mongo@1.1.0
 mongo-livedata@1.0.8
+netanelgilad:angular-sortable-view@0.0.13
 nmccready:angular-simple-logger@0.0.2
 npm-bcrypt@0.7.8_2
 oauth@1.1.4
@@ -96,7 +100,9 @@ tracker@1.0.7
 twitter@1.1.4
 ui@1.0.6
 underscore@1.0.3
+urigo:angular@0.8.14
 urigo:angular-blaze-template@0.0.1
 url@1.0.4
+vitalets:angular-xeditable@0.1.9
 webapp@1.2.0
 webapp-hashing@1.0.3
